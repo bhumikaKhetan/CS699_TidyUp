@@ -1,0 +1,342 @@
+<!--Header Rows-->
+<div style="background-color: #194d92;color: white;padding-top: 10px; position: fixed;width: 100%;z-index:1">
+  <div class="row justify-content-center">
+    <h1 style="font-weight: bold;">TidyUP - Clean, Transform, Visualize Data</h1>
+  </div>
+
+  <p class="row justify-content-center">-A project done for CS699 by Bhumika Khetan and Bhawna Chelani</p>
+
+
+</div>
+
+<br>
+<br>
+<br><br><br>
+
+
+<!--Body Row-->
+
+<div class="container-fluid">
+
+  <!-- <div>
+    <div class="container-fluid">
+
+      Form 1 for file submission
+      Upload data button
+      <div class="row">
+        <label for="file_upload" style="font-weight: bold">Upload the CSV File here:&nbsp;</label>
+        <input name="file-upload" type="file" (change)="uploadFile($event)">
+      </div>
+
+      <input type="submit" value="upload" (click)="getData()">
+    </div>
+  </div> -->
+  
+
+  <div class="row">
+    <div class="col-6">
+
+      <div>
+        <div class="container-fluid" style="padding-bottom: 20px;">
+    
+          <!--Form 1 for file submission-->
+          <!-- Upload data button -->
+          <div class="row">
+            <label for="file_upload" style="font-weight: bold">Upload the CSV File here:&nbsp;</label>
+            <input name="file-upload" type="file" (change)="uploadFile($event)">
+          </div>
+    
+          <!-- <input type="submit" value="upload" (click)="getData()"> -->
+        </div>
+      </div>
+
+      <h3 style="font-weight: bold;"> Data Cleaning</h3>
+      <!--Form 2 for tool details submission-->
+      <!-- Upload setting details -->
+      <div class="container-fluid" style="border:1px solid black;">
+        <form name="tool_options" [formGroup]="tool_options" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <br>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="ops">Preprocessing Options:</label>
+                  <select formControlName="tool_type" name="ops" id="ops" (change)='onOptionsSelected($event)'>
+                    <option value="select" [selected]="true">&lt;Select Option&gt;</option>
+                    <option value="drop_na_cols" [selected]="false">Drop all columns with Null/NA/Empty values</option>
+                    <option value="drop_na_col_name">Drop specific column with Null/NA/Empty values</option>
+                    <option value="drop_na_row">Drop all rows with Null/NA/Empty values(in ANY field)</option>
+                    <option value="drop_na_row_name">Drop all rows with Null/NA/Empty values(in SPECIFIC field)</option>
+                    <option value="replace_na">Replace column having Null/NA/Empty value with specific value</option>
+                    <option value="replace_val">Replace column values with specific values</option>
+                    <option value="bfill">Backwards fill(fill Null/NA/Empty with values from next row)</option>
+                    <option value="ffill">Forwards fill(fill Null/NA/Empty with values from previous row)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="cols"> Column Options:</label>
+                  <select formControlName="col_name" name="cols" [attr.disabled]="enable_cols ? null: true">
+                    <option *ngFor="let column of csvHeader" value={{column}}>
+                      {{ column }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="old_val">Old Value:</label>
+                  <input formControlName="old_val" type="text" id="old_val"
+                    [attr.disabled]="enable_old_val ? null: true">
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="new_val">New Value:</label>
+                  <input formControlName="new_val" type="text" id="new_val"
+                    [attr.disabled]="enable_new_val ? null: true">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group" style="text-align: center;">
+                  <input class="buttonCSS" type="submit">
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </form>
+      </div>
+
+      <br>
+      <h3 style="font-weight: bold;">Data Transformation</h3>
+      <!--Form 2 for tool details submission-->
+      <!-- Upload setting details -->
+      <div class="container-fluid" style="border:1px solid black;">
+
+        <form name="trans_options" [formGroup]="trans_options" (ngSubmit)="onTSubmit()">
+          <div class="form-group">
+            <br>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="ops">Transformation Options:</label>
+                  <select formControlName="trans_type" name="ops" id="ops" (change)='onTOptionsSelected($event)'>
+                    <option value="select" [selected]="true">&lt;Select Option&gt;</option>
+                    <option value="normalization" [selected]="false">Normalization</option>
+                    <option value="standardization">Standardization</option>
+                    <option value="drop_column">Drop Column</option>
+                    <option value="label_encoding">Label Encoding on Column</option>
+
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="cols"> Column Options:</label>
+                  <select formControlName="col_name" name="cols" [attr.disabled]="enable_Tcols ? null: true">
+                    <!-- <option value="select" [selected]="true">&lt;Select Column&gt;</option> -->
+                    <option *ngFor="let column of csvHeader" value={{column}}>
+                      {{ column }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group" style="text-align: center;">
+                  <input class="buttonCSS" type="submit">
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+
+
+
+
+      <!--displaying graphs-->
+
+      <br>
+
+      <h3 style="font-weight: bold;"> Data Visualization</h3>
+      <!--Form 2 for tool details submission-->
+      <!-- Upload setting details -->
+      <div class="container-fluid" style="border:1px solid black;">
+        <form name="graph_options" [formGroup]="graph_options" (ngSubmit)="onGSubmit()">
+          <div class="form-group">
+            <br>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="ops">Graph Options:</label>
+                  <select formControlName="graph_type" name="grs" id="grs" (change)='onGOptionsSelected($event)'>
+                    <option value="select" [selected]="true">&lt;Select graph type&gt;</option>
+                    <option value="categorical_pie_chart" [selected]="false">Pie (Use this for categorical data)
+                    </option>
+                    <option value="bar_chart_na">Bar NA (Gives Null/NA count)</option>
+                    <option value="bar_chart_na_original">Bar NA (Gives Null/NA count of the original uploaded data)
+                    </option>
+                    <option value="hist_chart">Histogram (Shows how data is distributed over a given range)</option>
+                    <option value="categorical_data">Bar (Used mainly for categorical data)</option>
+                    <option value="line_chart">Line (Used for numerical data)</option>
+
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="cols"> Column Options:</label>
+                  <select formControlName="col_name" name="cols" [attr.disabled]="enable_Gcols ? null: true">
+                    <option *ngFor="let column of csvHeader" value={{column}}>
+                      {{ column }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="cols"> Second Column Options:</label>
+                  <select formControlName="col_2name" name="cols" [attr.disabled]="enable_Gcols2 ? null: true">
+                    <option *ngFor="let column of csvHeader" value={{column}}>
+                      {{ column }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+
+              <!-- <div class="col-12">
+                <div class="form-group">
+                  <label for="new_val">Value:</label>
+                  <input formControlName="new_val" type="text" id="new_val" [attr.disabled]="enable_Gval ? null: true">
+                </div>
+              </div> -->
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group" style="text-align: center;">
+                  <input class="buttonCSS" type="submit">
+                </div>
+              </div>
+            </div>
+
+            <img [src]="image ? image : '../assets/img/placeholder.png'">
+
+            <!-- <img src="../assets/img/placeholder.png" alt="image"> -->
+
+          </div>
+
+          <!-- <div>
+          <img [src]="image ? image : './app/assets/placeholder.png'" >
+          
+          <img src="../assets/img/placeHolder.jpeg" alt="image">
+      
+        </div> -->
+        </form>
+      </div>
+
+
+
+      <!--end display graphs-->
+    </div>
+    <div class="col-6">
+
+      <br>
+      <div>
+        <div>
+          <div class="row">
+            <div class="col-4">
+
+              <div style="text-align: center;">
+                <input ID=button1 class="buttonCSS" type="submit" value="Download Original File"
+                  (click)="downloadFile()">
+              </div>
+            </div>
+            <div class="col-4">
+              <div style="text-align: center;">
+                <input class="buttonCSS" ID=button1 type="submit" value="Reset Data to Original File"
+                  (click)="resetData()">
+              </div>
+            </div>
+            <div class="col-4">
+              <div style="text-align: center;">
+                <input class="buttonCSS" ID=button1 type="submit" value="Download Updated Data"
+                  (click)="downloadUpdatedData()">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+
+
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group" style="text-align: center; font-weight: bold;">
+            <label for="col_count">Number of Columns:&nbsp;</label>{{columnCount}}
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group" style="text-align: center; font-weight: bold;">
+            <label for="row_count">Number of Rows:&nbsp;</label>{{RowCount}}
+            <!-- <input type="text" id="row_c" name="row_c" value={{RowCount}}>  </div> -->
+          </div>
+        </div>
+        <!--Display table-->
+        <div style="overflow: auto;max-height: 100vh;">
+          <table id="table_id" class="display table_wrapper table-striped table-hover">
+            <thead>
+              <tr>
+                <th *ngFor="let header of csvHeader"> {{header}} </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let row of csvData">
+                <td *ngFor="let col of row">{{col}}</td>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+        <!-- end display table -->
+        <br>
+        <br>
+        <br>
+
+        <!--Download file-->
+
+
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="position: fixed; bottom: 0; right: 0; z-index:1; font-size: small;">Note: Any operation may give
+    unexpected result when applied on non coherent data</div>

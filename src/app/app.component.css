@@ -1,0 +1,30 @@
+.table-striped>tbody>tr:nth-child(2n+1)>td,
+.table-striped>tbody>tr:nth-child(2n+1)>th {
+    background-color: #c1d5ea
+    ;
+}
+
+.buttonCSS{
+    background-color: #194d92;
+    color: white;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: none;
+    border-radius: 4px;
+    
+    font-family: Serif;
+}
+.buttonCSS:hover{
+    background-color: #6c93c6;
+}
+th {
+    background-color: #eceef1;
+    color: #194d92;
+}
+
+
+.table-striped>tbody>tr:nth-child(2n)>td,
+.table-striped>tbody>tr:nth-child(2n)>th {
+    background-color: #add0f4;
+}
